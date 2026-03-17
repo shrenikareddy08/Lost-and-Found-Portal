@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Lost Item - KLH</title>
+
+<style>
+
+/* ===== THEME SYSTEM ===== */
+:root {
+    --bg-color: #eef2f7;
+    --text-color: #1a1a1a;
+    --card-bg: #ffffff;
+}
+
+body.dark {
+    --bg-color: #0f172a;
+    --text-color: #e2e8f0;
+    --card-bg: #1e293b;
+}
+
+/* ===== GENERAL ===== */
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.navbar-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar-links a:hover,
+.navbar-links .active {
+    color: #2563eb;
+}
+
+/* Toggle */
+.toggle-btn {
+    margin-left: 20px;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #6c63ff;
+    color: white;
+    cursor: pointer;
+}
+
+/* ===== LOST SECTION ===== */
+.lost-section {
+    padding: 40px 20px;
+}
+
+/* ===== FORM CARD ===== */
+.lost-card {
+    max-width: 550px;
+    margin: auto;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.lost-card h1 {
+    color: #1e3a8a;
+    margin-bottom: 10px;
+}
+.lost-card p {
+    color: #555;
+    margin-bottom: 20px;
+}
+.lost-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.input-group {
+    position: relative;
+    width: 100%;
+}
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 12px 12px 38px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+.input-icon {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+}
+textarea {
+    height: 80px;
+    resize: none;
+}
+
+/* BUTTON */
+.lost-card button {
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.lost-card button:hover {
+    background: #1e40af;
+}
+
+/* ===== TITLE ===== */
+.title {
+    text-align: center;
+    margin: 50px 0 20px;
+    color: #1e3a8a;
+}
+
+/* ===== GRID ===== */
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 0 40px;
+}
+
+/* ===== CARD ===== */
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: 0.3s;
+    position: relative;
+}
+.card:hover {
+    transform: translateY(-6px);
+}
+
+/* HEADER */
+.card h3 {
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+/* DETAILS */
+.card p {
+    font-size: 14px;
+    color: #555;
+    margin: 6px 0;
+}
+
+/* FOOTER */
+.card small {
+    display: block;
+    margin-top: 10px;
+    color: #888;
+}
+
+/* USER TAG */
+.user-tag {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 12px;
+    background: #eef2ff;
+    padding: 4px 8px;
+    border-radius: 10px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 13px;
+    z-index: 200;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar-links {
+        margin-top: 10px;
+    }
+    .items-grid {
+        padding: 20px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="navbar-logo">🎒 KLH Portal</div>
+    <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="lost.html" class="active">Report-Lost</a>
+        <a href="find.html">Report-Found</a>
+        <a href="foryou.html">For-You</a>
+        <a href="notification.html">🔔</a>
+        <a href="profile.html">Profile</a>
+        <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+</div>
+
+<section class="lost-section">
+
+    <!-- FORM -->
+    <div class="lost-card">
+        <h1>Report a Lost Item</h1>
+        <p>Provide details to help find your item</p>
+
+        <div class="lost-form">
+
+            <div class="input-group">
+                <span class="input-icon">📦</span>
+                <input id="lostName" type="text" placeholder="Item Name">
+            </div>
+
+            <div class="input-group">
+                <span class="input-icon">📍</span>
+                <input id="lostLocation" type="text" placeholder="Where Lost">
+            </div>
+
+            <div class="input-group">
+                <span class="input-icon">📝</span>
+                <textarea id="lostDesc" placeholder="Description"></textarea>
+            </div>
+
+            <button onclick="reportLost()">Submit</button>
+        </div>
+    </div>
+
+    <!-- ITEMS -->
+    <h2 class="title">Recently Reported Lost Items</h2>
+    <div id="lostItemsGrid" class="items-grid"></div>
+
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+© 2026 KLH Lost & Found Portal
+</div>
+
+<script>
+// LOGIN CHECK
+const user = JSON.parse(localStorage.getItem("studentData"));
+if(!user){
+    window.location.href = "login.html";
+}
+
+// REPORT LOST
+function reportLost() {
+    const name = document.getElementById("lostName").value.trim();
+    const location = document.getElementById("lostLocation").value.trim();
+    const desc = document.getElementById("lostDesc").value.trim();
+
+    if(!name || !location || !desc){
+        alert("Please fill all fields!");
+        return;
+    }
+
+    const lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
+
+    const item = {
+        name,
+        location,
+        desc,
+        user: user.name,
+        time: new Date().toLocaleString()
+    };
+
+    lostItems.unshift(item);
+    localStorage.setItem("lostItems", JSON.stringify(lostItems));
+
+    displayLostItems();
+
+    document.getElementById("lostName").value = "";
+    document.getElementById("lostLocation").value = "";
+    document.getElementById("lostDesc").value = "";
+}
+
+// DISPLAY ITEMS
+function displayLostItems() {
+    const lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
+    const grid = document.getElementById("lostItemsGrid");
+    grid.innerHTML = "";
+
+    lostItems.forEach(i => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        div.innerHTML = `
+            <div class="user-tag">${i.user}</div>
+            <h3>${i.name}</h3>
+            <p>📍 ${i.location}</p>
+            <p>📝 ${i.desc}</p>
+            <small>🕒 ${i.time}</small>
+        `;
+
+        grid.appendChild(div);
+    });
+}
+
+displayLostItems();
+
+// THEME TOGGLE
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+}
+function loadTheme(){
+    if(localStorage.getItem("theme") === "dark"){
+        document.body.classList.add("dark");
+    }
+}
+loadTheme();
+
+</script>
+</body>
+</html>

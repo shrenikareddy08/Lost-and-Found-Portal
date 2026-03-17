@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - KLH</title>
+
+<style>
+
+/* ===== THEME ===== */
+:root {
+    --bg-color: #eef2f7;
+    --text-color: #1a1a1a;
+    --card-bg: #ffffff;
+}
+
+body.dark {
+    --bg-color: #0f172a;
+    --text-color: #e2e8f0;
+    --card-bg: #1e293b;
+}
+
+/* ===== GENERAL ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.navbar-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 500;
+}
+
+.navbar-links a:hover,
+.navbar-links .active {
+    color: #2563eb;
+}
+
+/* TOGGLE */
+.toggle-btn {
+    margin-left: 20px;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #6c63ff;
+    color: white;
+    cursor: pointer;
+}
+
+/* ===== SECTION ===== */
+.section {
+    padding: 40px 20px;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-container {
+    max-width: 900px;
+    margin: auto;
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* TOP */
+.profile-top {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.profile-pic {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid #2563eb;
+    object-fit: cover;
+}
+
+/* INFO */
+.profile-info h2 {
+    margin: 0;
+    font-size: 30px;
+    color: #1e3a8a;
+}
+
+.profile-info p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* DIVIDER */
+.divider {
+    height: 1px;
+    background: #ddd;
+    margin: 30px 0;
+}
+
+/* ===== BOXES ===== */
+.profile-extra {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.profile-extra a.box {
+    flex: 1 1 250px;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.profile-extra a.box:hover {
+    transform: translateY(-6px);
+}
+
+.profile-extra h3 {
+    color: #2563eb;
+}
+
+/* BUTTON */
+.logout-btn {
+    margin-top: 30px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #1e40af;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 13px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar-links {
+        margin-top: 10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="navbar-logo">🎒 KLH Portal</div>
+    <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="lost.html">Report-Lost</a>
+        <a href="find.html">Report-Found</a>
+        <a href="foryou.html">For-You</a>
+        <a href="notification.html">🔔</a>
+        <a href="profile.html" class="active">Profile</a>
+        <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+</div>
+
+<section class="section">
+
+<div class="profile-container">
+
+    <div class="profile-top">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-pic">
+
+        <div class="profile-info">
+            <h2 id="name"></h2>
+            <p>Welcome back 👋</p>
+            <p id="email"></p>
+            <p id="course"></p>
+            <p id="year"></p>
+            <p id="dept"></p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="profile-extra">
+        <a href="lost.html" class="box">
+            <h3>Lost Items</h3>
+            <p>View your reported lost items</p>
+        </a>
+
+        <a href="find.html" class="box">
+            <h3>Found Items</h3>
+            <p>View items you reported</p>
+        </a>
+
+        <a href="messages.html" class="box">
+            <h3>Messages</h3>
+            <p>Check your chats</p>
+        </a>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+© 2026 KLH Lost & Found Portal
+</div>
+
+<script>
+
+// LOGIN CHECK
+const studentData = JSON.parse(localStorage.getItem('studentData'));
+if(!studentData){
+    window.location.href = "login.html";
+}
+
+// FORMAT
+function formatCourse(course){
+    if(course === "btech") return "B.Tech";
+    if(course === "bca") return "BCA";
+    if(course === "bba") return "BBA";
+    return course;
+}
+
+// LOAD DATA
+document.getElementById("name").innerText = studentData.name || "";
+document.getElementById("email").innerText = studentData.email || "";
+document.getElementById("course").innerText = studentData.course ? "Course: "+formatCourse(studentData.course) : "";
+document.getElementById("year").innerText = studentData.year ? "Year: "+studentData.year : "";
+
+if(studentData.department){
+    document.getElementById("dept").innerText = "Department: "+studentData.department.toUpperCase();
+}
+
+// LOGOUT
+function logout(){
+    localStorage.removeItem('studentData');
+    window.location.href = "login.html";
+}
+
+// THEME
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+}
+
+function loadTheme(){
+    if(localStorage.getItem("theme")==="dark"){
+        document.body.classList.add("dark");
+    }
+}
+loadTheme();
+
+</script>
+
+</body>
+</html>

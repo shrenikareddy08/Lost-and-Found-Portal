@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLH Lost & Found Portal</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+/* ===== THEME SYSTEM ===== */
+:root {
+    --bg-color: #eef2f7;
+    --text-color: #1a1a1a;
+    --card-bg: #ffffff;
+}
+body.dark {
+    --bg-color: #0f172a;
+    --text-color: #e2e8f0;
+    --card-bg: #1e293b;
+}
+
+/* ===== GENERAL ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    scroll-behavior: smooth;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+.navbar-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+.navbar-links a:hover,
+.navbar-links .active {
+    color: #2563eb;
+}
+.toggle-btn {
+    margin-left: 20px;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #6c63ff;
+    color: white;
+    cursor: pointer;
+}
+
+/* ===== HERO ===== */
+.hero {
+    position: relative;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: url('6.jpeg') no-repeat center/cover;
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.3);
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+.hero h1 {
+    font-size: 50px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+.hero img {
+    width: 180px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    background: white;
+    padding: 8px;
+}
+.hero p {
+    font-size: 24px;
+    color: #e0e7ff;
+}
+
+/* ===== FEATURES ===== */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 60px 20px;
+}
+.feature-card {
+    flex: 1 1 260px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+.feature-card:hover {
+    transform: translateY(-6px);
+}
+.feature-card img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+.feature-card h3 {
+    color: #1e3a8a;
+    margin-bottom: 10px;
+}
+.feature-card p {
+    color: #555;
+    font-size: 14px;
+}
+
+/* ===== WHY US ===== */
+.why-us {
+    background: linear-gradient(to right, #1e3a8a, #2563eb);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+.why-us h2 {
+    font-size: 34px;
+}
+.why-us p {
+    max-width: 700px;
+    margin: 10px auto 0;
+}
+
+/* ===== STATS ===== */
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 60px 20px;
+}
+.stat-card {
+    flex: 1 1 220px;
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+.stat-card h2 {
+    color: #2563eb;
+    font-size: 32px;
+}
+.stat-card p {
+    color: #555;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    z-index: 200;
+    font-size: 13px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .features, .stats-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar-links {
+        margin-top: 10px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="navbar-logo">🎒 KLH Portal</div>
+    <div class="navbar-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="lost.html">Report-Lost</a>
+        <a href="find.html">Report-Found</a>
+        <a href="foryou.html">For-You</a>
+        <a href="notification.html">🔔</a>
+        <a href="profile.html">Profile</a>
+        <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to KLH Lost & Found</h1>
+        <img src="b.png" alt="KLH Logo">
+        <p>Recover your lost items quickly and securely</p>
+        <a href="#why-us-section" class="btn btn-primary mt-3">Learn More</a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <div class="feature-card">
+        <img src="1.jpeg" alt="Easy Reporting">
+        <h3>Easy Reporting</h3>
+        <p>Post lost or found items with images and descriptions in seconds.</p>
+    </div>
+    <div class="feature-card">
+        <img src="2.jpeg" alt="Fast Recovery">
+        <h3>Fast Recovery</h3>
+        <p>Get notifications instantly when your item is found.</p>
+    </div>
+    <div class="feature-card">
+        <img src="3.jpg" alt="Student Only">
+        <h3>Student Only</h3>
+        <p>Access restricted to KLH students for security.</p>
+    </div>
+    <div class="feature-card">
+        <img src="4.jpeg" alt="Track Items">
+        <h3>Track Items</h3>
+        <p>Track all your lost/found items easily.</p>
+    </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-us" id="why-us-section">
+    <h2>Why Us?</h2>
+    <p>KLH Lost & Found is designed exclusively for students to ensure every lost item finds its way back securely and quickly. Trust, speed, and reliability are our core values.</p>
+</section>
+
+<!-- STATS -->
+<section class="stats-container">
+    <div class="stat-card">
+        <h2>200+</h2>
+        <p>Items Recovered</p>
+    </div>
+    <div class="stat-card">
+        <h2>150+</h2>
+        <p>Items Reposted</p>
+    </div>
+    <div class="stat-card">
+        <h2>100%</h2>
+        <p>Student Access</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+© 2026 KLH Lost & Found Portal
+</div>
+
+<script>
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+}
+function loadTheme(){
+    if(localStorage.getItem("theme") === "dark"){
+        document.body.classList.add("dark");
+    }
+}
+loadTheme();
+</script>
+
+</body>
+</html>

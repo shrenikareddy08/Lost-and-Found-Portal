@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Found Item - KLH</title>
+
+<style>
+:root {
+    --bg-color: #f4f6fb;
+    --text-color: #1a1a1a;
+    --card-bg: #ffffff;
+    --btn-bg: #27ae60;
+    --btn-hover: #1e8449;
+}
+body.dark {
+    --bg-color: #0f172a;
+    --text-color: #e2e8f0;
+    --card-bg: #1e293b;
+    --btn-bg: #2563eb;
+    --btn-hover: #1d4ed8;
+}
+
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 50px; /* space for footer */
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.navbar-logo { font-size: 24px; font-weight: bold; color: var(--text-color); white-space: nowrap; }
+.navbar-links { display: flex; align-items: center; flex-wrap: nowrap; }
+.navbar-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.navbar-links a:hover,
+.navbar-links .active { color: #2563eb; }
+.toggle-btn {
+    margin-left: 15px;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #6c63ff;
+    color: white;
+    cursor: pointer;
+}
+
+.found-card {
+    max-width: 550px;
+    margin: 40px auto;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    text-align: center;
+}
+.found-card h1 { color: var(--text-color); margin-bottom: 10px; }
+.found-card p { color: #555; margin-bottom: 20px; }
+
+.form-group { margin-bottom: 15px; }
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+#preview { width: 100%; margin-top: 10px; border-radius: 8px; display: none; }
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: var(--btn-bg);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+button:hover { background: var(--btn-hover); }
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+    gap: 25px;
+    padding: 0 40px;
+    flex: 1;
+}
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    position: relative;
+}
+.card img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+.card:hover { transform: translateY(-6px); }
+.card h3 { color: #2563eb; margin-bottom: 6px; }
+.card p { font-size: 14px; color: #555; margin: 4px 0; }
+.user-tag { position: absolute; top: 10px; right: 12px; font-size: 12px; background: #eef2ff; padding: 4px 8px; border-radius: 10px; }
+
+.claim-section { margin-top: 10px; display: none; }
+.claim-section textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.claim-section button {
+    margin-top: 6px;
+    width: auto;
+    padding: 8px 15px;
+    border-radius: 8px;
+}
+
+.title { text-align: center; margin: 50px 0 20px; color: var(--text-color); }
+.footer {
+    position: fixed;      /* Keep it at bottom of viewport */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 13px;
+    z-index: 200;
+}
+
+
+@media(max-width:768px){
+    .navbar { flex-direction: column; align-items: flex-start; }
+    .navbar-links { overflow-x: auto; }
+    .items-grid { padding: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-logo">🎒 KLH Portal</div>
+    <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="lost.html">Report-Lost</a>
+        <a href="find.html" class="active">Report-Found</a>
+        <a href="foryou.html">For-You</a>
+        <a href="notification.html">🔔</a>
+        <a href="profile.html">Profile</a>
+        <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+</div>
+
+<div class="found-card">
+    <h1>Report Found Item</h1>
+    <p>Provide details to help return the item</p>
+    <div class="form-group">
+        <input id="foundName" placeholder="Item Name">
+    </div>
+    <div class="form-group">
+        <input id="foundLocation" placeholder="Location Found">
+    </div>
+    <div class="form-group">
+        <textarea id="foundDesc" placeholder="Description"></textarea>
+    </div>
+    <div class="form-group">
+        <input type="file" id="foundImage" accept="image/*" onchange="previewImage(event)">
+    </div>
+    <img id="preview">
+    <button onclick="reportFound()">Submit</button>
+</div>
+
+<h2 class="title">Recently Found Items</h2>
+<div id="foundGrid" class="items-grid"></div>
+
+<div class="footer">© 2026 KLH Lost & Found Portal</div>
+
+<script>
+// LOGIN CHECK
+const user = JSON.parse(localStorage.getItem("studentData"));
+if(!user) window.location.href = "login.html";
+
+let imageData = "";
+function previewImage(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(){ 
+        imageData = reader.result;
+        document.getElementById("preview").src = imageData;
+        document.getElementById("preview").style.display = "block";
+    };
+    reader.readAsDataURL(file);
+}
+
+// LOAD AND DISPLAY ITEMS
+function displayFoundItems(){
+    const savedItems = JSON.parse(localStorage.getItem("foundItems")) || [];
+
+    const sampleItems = [
+        {name:"Phone: Apple iPhone 14", location:"Library", user:"Anjali"},
+        {name:"Laptop: Dell XPS 13", location:"Lab 1", user:"Rohit"},
+        {name:"Watch: Casio Digital", location:"Gym", user:"Sneha"},
+        {name:"ID Card: KLH Student", location:"Cafeteria", user:"Amit"},
+        {name:"Bluetooth Earbuds: Samsung", location:"Playground", user:"Nisha"},
+        {name:"Wallet: Black Leather", location:"Auditorium", user:"Rahul"},
+        {name:"Keys: Car Key", location:"Parking Lot", user:"Tina"},
+        {name:"Tablet: iPad Mini", location:"Library", user:"Karan"},
+        {name:"Headphones: Sony WH-1000XM4", location:"Bus Stop", user:"Priya"},
+        {name:"Smartwatch: Fitbit Versa", location:"Garden", user:"Aman"},
+        {name:"Charger: MacBook", location:"Reception", user:"Meera"},
+        {name:"USB Drive: 64GB", location:"Hall 2", user:"Sahil"},
+        {name:"Backpack: Nike", location:"Gym", user:"Divya"},
+        {name:"Water Bottle: Hydro Flask", location:"Canteen", user:"Rahul"},
+        {name:"Sunglasses: Ray-Ban", location:"Playground", user:"Ankita"},
+    ];
+
+    const items = [...sampleItems, ...savedItems];
+    const grid = document.getElementById("foundGrid");
+    grid.innerHTML = "";
+
+    items.forEach((item, index)=>{
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+            <h3>${item.name}</h3>
+            <p>📍 ${item.location}</p>
+            <p class="user-tag">Found by: ${item.user}</p>
+            <button onclick="showClaim(${index})">Claim</button>
+            <div class="claim-section" id="claim-${index}">
+                <textarea placeholder="Write your message..."></textarea>
+                <button onclick="submitClaim(${index})">Submit</button>
+            </div>
+        `;
+        grid.appendChild(div);
+    });
+}
+
+// ADD NEW ITEM
+function reportFound(){
+    const name = document.getElementById("foundName").value.trim();
+    const location = document.getElementById("foundLocation").value.trim();
+    const desc = document.getElementById("foundDesc").value.trim();
+    if(!name || !location || !desc){ alert("Please fill all fields"); return; }
+
+    const items = JSON.parse(localStorage.getItem("foundItems")) || [];
+    items.unshift({ name, location, desc, user:user.name, img:imageData||"" });
+    localStorage.setItem("foundItems", JSON.stringify(items));
+
+    displayFoundItems(); // **Update grid immediately**
+
+    // Reset form
+    document.getElementById("foundName").value="";
+    document.getElementById("foundLocation").value="";
+    document.getElementById("foundDesc").value="";
+    document.getElementById("foundImage").value="";
+    document.getElementById("preview").style.display="none";
+    imageData="";
+}
+
+// CLAIM FUNCTIONS
+function showClaim(index){
+    const claim = document.getElementById(`claim-${index}`);
+    claim.style.display = claim.style.display === "block" ? "none" : "block";
+}
+
+function submitClaim(index){
+    const claimText = document.querySelector(`#claim-${index} textarea`).value.trim();
+    if(!claimText){ alert("Please enter a message"); return; }
+    alert(`Your claim message has been sent:\n"${claimText}"`);
+    document.querySelector(`#claim-${index} textarea`).value = "";
+    document.getElementById(`claim-${index}`).style.display = "none";
+}
+
+// THEME TOGGLE
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+}
+if(localStorage.getItem("theme")==="dark"){ document.body.classList.add("dark"); }
+
+// INITIAL DISPLAY
+displayFoundItems();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications - KLH</title>
+
+<style>
+
+/* ===== THEME ===== */
+:root {
+    --bg-color: #eef2f7;
+    --text-color: #1a1a1a;
+    --card-bg: #ffffff;
+}
+
+body.dark {
+    --bg-color: #0f172a;
+    --text-color: #e2e8f0;
+    --card-bg: #1e293b;
+}
+
+/* ===== GENERAL ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.navbar-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 500;
+}
+
+.navbar-links a:hover,
+.navbar-links .active {
+    color: #2563eb;
+}
+
+/* TOGGLE */
+.toggle-btn {
+    margin-left: 20px;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #6c63ff;
+    color: white;
+    cursor: pointer;
+}
+
+/* ===== SECTION ===== */
+.section {
+    padding: 40px 20px;
+}
+
+/* ===== TITLE ===== */
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+/* ===== NOTIFICATION CARD ===== */
+.notification {
+    max-width: 800px;
+    margin: 10px auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.notification:hover {
+    transform: translateY(-4px);
+}
+
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+/* COLORS */
+.lost { background: #ef4444; }
+.found { background: #22c55e; }
+.match { background: #2563eb; }
+
+.text strong {
+    display: block;
+    font-size: 14px;
+}
+
+.text span {
+    font-size: 12px;
+    color: gray;
+}
+
+/* BUTTON */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #1e40af;
+}
+
+/* EMPTY */
+.empty {
+    text-align: center;
+    margin-top: 50px;
+    color: gray;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 13px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar-links {
+        margin-top: 10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="navbar-logo">🎒 KLH Portal</div>
+    <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="lost.html">Report-Lost</a>
+        <a href="find.html">Report-Found</a>
+        <a href="foryou.html">For-You</a>
+        <a href="notification.html" class="active">🔔</a>
+        <a href="profile.html">Profile</a>
+        <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+</div>
+
+<section class="section">
+
+<h2 class="title">Notifications</h2>
+
+<div id="notificationContainer"></div>
+
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+© 2026 KLH Lost & Found Portal
+</div>
+
+<script>
+
+// LOGIN CHECK
+const user = JSON.parse(localStorage.getItem("studentData"));
+if(!user){
+    window.location.href = "login.html";
+}
+
+const container = document.getElementById("notificationContainer");
+
+// GET DATA
+function getData() {
+    return {
+        lost: JSON.parse(localStorage.getItem("lostItems")) || [],
+        found: JSON.parse(localStorage.getItem("foundItems")) || []
+    };
+}
+
+// CREATE NOTIFICATION
+function createNotification(type, message, link) {
+    const div = document.createElement("div");
+    div.className = "notification";
+
+    div.innerHTML = `
+        <div class="left">
+            <div class="icon ${type}">${type[0].toUpperCase()}</div>
+            <div class="text">
+                <strong>${message}</strong>
+                <span>Just now</span>
+            </div>
+        </div>
+        <button class="btn" onclick="openLink('${link}')">View</button>
+    `;
+
+    container.prepend(div);
+}
+
+// NAVIGATE
+function openLink(link) {
+    window.location.href = link;
+}
+
+// GENERATE
+function generateNotifications() {
+    container.innerHTML = "";
+
+    const { lost, found } = getData();
+    let has = false;
+
+    lost.forEach(l => {
+        has = true;
+        createNotification("lost", `You reported "${l.name}"`, "lost.html");
+    });
+
+    found.forEach(f => {
+        has = true;
+        createNotification("found", `New found item: "${f.name}"`, "find.html");
+    });
+
+    // MATCH LOGIC
+    lost.forEach(l => {
+        found.forEach(f => {
+            if (l.name.toLowerCase() === f.name.toLowerCase()) {
+                has = true;
+                createNotification(
+                    "match",
+                    `Match found for "${l.name}" 🎉`,
+                    "foryou.html"
+                );
+            }
+        });
+    });
+
+    if (!has) {
+        container.innerHTML = `<div class="empty">No notifications yet 🚀</div>`;
+    }
+}
+
+// AUTO REFRESH
+setInterval(generateNotifications, 3000);
+generateNotifications();
+
+// THEME
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+}
+
+function loadTheme(){
+    if(localStorage.getItem("theme")==="dark"){
+        document.body.classList.add("dark");
+    }
+}
+loadTheme();
+
+</script>
+
+</body>
+</html>

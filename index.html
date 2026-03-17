@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLH Lost & Found Login</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('1.webp') no-repeat center top/cover;
+    background-attachment: fixed;
+    color: #333;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+.login-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 35px 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+    width: 320px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.login-card:hover {
+    transform: translateY(-3px);
+}
+
+.login-card img {
+    width: 100px;
+    margin-bottom: 15px;
+}
+
+.login-card h1 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    color: #ff4d4d;
+}
+
+.login-card p {
+    font-size: 13px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-container input,
+.form-container select {
+    padding: 10px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.form-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #6c63ff, #8f94fb);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+}
+
+.error-msg {
+    color: red;
+    font-size: 13px;
+    text-align: center;
+}
+
+.small-text {
+    font-size: 11px;
+    color: #777;
+    margin-top: 6px;
+}
+
+@media(max-width: 480px){
+    .login-card {
+        width: 90%;
+        padding: 30px 20px;
+    }
+
+    .login-card h1 {
+        font-size: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-card">
+    <img src="a.png" alt="KLH Logo">
+
+    <h1>🎓 KLH Lost & Found</h1>
+    <p>Login with your KLH email</p>
+
+    <div class="form-container">
+        <p id="errorMsg" class="error-msg"></p>
+
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email (@klh.edu.in)" required>
+
+        <!-- Course -->
+        <select id="course" onchange="updateForm()">
+            <option value="">Select Course</option>
+            <option value="btech">B.Tech</option>
+            <option value="bca">BCA</option>
+            <option value="bba">BBA</option>
+        </select>
+
+        <!-- Year -->
+        <select id="year">
+            <option value="">Select Year</option>
+        </select>
+
+        <!-- Department -->
+        <select id="department">
+            <option value="">Select Department</option>
+            <option value="cse">CSE</option>
+            <option value="ece">ECE</option>
+        </select>
+
+        <input type="password" id="password" placeholder="Password" required>
+
+        <button onclick="login()">Login</button>
+        <div class="small-text">Only @klh.edu.in emails are allowed</div>
+    </div>
+</div>
+
+<script>
+function updateForm(){
+    const course = document.getElementById('course').value;
+    const yearSelect = document.getElementById('year');
+    const deptSelect = document.getElementById('department');
+
+    yearSelect.innerHTML = '<option value="">Select Year</option>';
+
+    if(course === 'btech'){
+        for(let i=1; i<=4; i++){
+            yearSelect.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+        deptSelect.style.display = "block";
+    } 
+    else if(course === 'bca' || course === 'bba'){
+        for(let i=1; i<=3; i++){
+            yearSelect.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+        deptSelect.style.display = "none";
+    } 
+    else {
+        deptSelect.style.display = "block";
+    }
+}
+
+function login(){
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const course = document.getElementById('course').value;
+    const year = document.getElementById('year').value;
+    const dept = document.getElementById('department').style.display === "none" 
+                 ? "" 
+                 : document.getElementById('department').value;
+    const password = document.getElementById('password').value.trim();
+    const errorMsg = document.getElementById('errorMsg');
+
+    if(!name || !email || !password || !course || !year){
+        errorMsg.innerText = "Please fill all required fields";
+        return;
+    }
+
+    if(!email.endsWith('@klh.edu.in')){
+        alert("Email must end with @klh.edu.in");
+        return;
+    }
+
+    const studentData = {name,email,course,year,department:dept};
+    localStorage.setItem('studentData', JSON.stringify(studentData));
+    localStorage.setItem('studentPassword', password);
+
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
