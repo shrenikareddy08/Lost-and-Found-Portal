@@ -3,237 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Messages - KLH</title>
-
+<title>Messages</title>
 <style>
-
-/* ===== THEME ===== */
-:root {
-    --bg-color: #eef2f7;
-    --text-color: #1a1a1a;
-    --card-bg: #ffffff;
-}
-
-body.dark {
-    --bg-color: #0f172a;
-    --text-color: #e2e8f0;
-    --card-bg: #1e293b;
-}
-
-/* ===== GENERAL ===== */
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: var(--bg-color);
-    color: var(--text-color);
-}
-
-/* ===== NAVBAR ===== */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 50px;
-    background: var(--card-bg);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.navbar-logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #1e3a8a;
-}
-
-.navbar-links a {
-    color: var(--text-color);
-    text-decoration: none;
-    margin-left: 25px;
-    font-weight: 500;
-}
-
-.navbar-links a:hover,
-.navbar-links .active {
-    color: #2563eb;
-}
-
-/* TOGGLE */
-.toggle-btn {
-    margin-left: 20px;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 20px;
-    background: #6c63ff;
-    color: white;
-    cursor: pointer;
-}
-
-/* ===== SECTION ===== */
-.section {
-    padding: 40px 20px;
-}
-
-/* ===== TITLE ===== */
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #1e3a8a;
-}
-
-/* ===== MESSAGE GRID ===== */
-.messages-container {
-    max-width: 800px;
-    margin: auto;
-}
-
-/* ===== CARD ===== */
-.message-card {
-    background: var(--card-bg);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-    transition: 0.3s;
-}
-
-.message-card:hover {
-    transform: translateY(-4px);
-}
-
-.message-card strong {
-    color: #2563eb;
-}
-
-/* ===== BUTTON ===== */
-.back-btn {
-    display: block;
-    margin: 25px auto;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
-}
-
-.back-btn:hover {
-    background: #1e40af;
-}
-
-/* ===== FOOTER ===== */
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    padding: 10px;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    font-size: 13px;
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .navbar-links {
-        margin-top: 10px;
-    }
-}
-
+body { font-family:'Segoe UI',sans-serif; background:#eef2f7; margin:0; padding:0; }
+.container { max-width:900px; margin:50px auto; background:#fff; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.08);}
+h1 { color:#1e3a8a; text-align:center; }
+.message { background:#f8fafc; padding:15px; border-radius:10px; margin:15px 0; }
+.message strong { color:#2563eb; }
+.back-btn { display:block; margin:20px auto; padding:10px 20px; background:#2563eb; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+.back-btn:hover { background:#1e40af; }
 </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="navbar-logo">🎒 KLH Portal</div>
-    <div class="navbar-links">
-       <a href="./home.html">Home</a>
-<a href="./lost.html">Report-Lost</a>
-<a href="./find.html">Report-Found</a>
-<a href="./foryou.html">For-You</a>
-<a href="./notification.html" class="active">🔔</a>
-<a href="./profile.html">Profile</a>
-        <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
-    </div>
-</div>
-
-<section class="section">
-
-<h2 class="title">Your Messages</h2>
-
-<div id="messagesList" class="messages-container"></div>
-
-<button class="back-btn" onclick="window.location.href='profile.html'">
-    Back to Profile
-</button>
-
-</section>
-
-<!-- FOOTER -->
-<div class="footer">
-© 2026 KLH Lost & Found Portal
+<div class="container">
+    <h1>Your Messages</h1>
+    <div id="messagesList"></div>
+    <button class="back-btn" onclick="window.location.href='profile.html'">Back to Profile</button>
 </div>
 
 <script>
+// Sample messages for testing
+if(!localStorage.getItem('messages')){
+    localStorage.setItem('messages', JSON.stringify([
+        {to:"john@example.com", from:"alice@example.com", msg:"Is this your laptop?"},
+        {to:"john@example.com", from:"bob@example.com", msg:"I found your backpack."},
+        {to:"jane@example.com", from:"john@example.com", msg:"Hi Jane!"}
+    ]));
+}
 
-// LOGIN CHECK
+// get logged-in student
 const studentData = JSON.parse(localStorage.getItem('studentData'));
 if(!studentData){
     window.location.href = "login.html";
 }
 
-// SAMPLE DATA
-if(!localStorage.getItem('messages')){
-    localStorage.setItem('messages', JSON.stringify([
-        {to:"john@example.com", from:"alice@example.com", msg:"Is this your laptop?"},
-        {to:"john@example.com", from:"bob@example.com", msg:"I found your backpack."}
-    ]));
-}
-
-// DISPLAY MESSAGES
+// display messages
 const allMessages = JSON.parse(localStorage.getItem('messages')) || [];
 const myMessages = allMessages.filter(m => m.to === studentData.email);
 
-const container = document.getElementById("messagesList");
+const messagesList = document.getElementById("messagesList");
 
 if(myMessages.length === 0){
-    container.innerHTML = "<p style='text-align:center;'>No messages yet.</p>";
+    messagesList.innerHTML = "<p>You have no messages.</p>";
 } else {
     myMessages.forEach(m => {
         const div = document.createElement("div");
-        div.className = "message-card";
-
-        div.innerHTML = `
-            <strong>From:</strong> ${m.from}<br><br>
-            ${m.msg}
-        `;
-
-        container.appendChild(div);
+        div.className = "message";
+        div.innerHTML = `<strong>From: ${m.from}</strong><br>${m.msg}`;
+        messagesList.appendChild(div);
     });
 }
-
-// THEME
-function toggleTheme(){
-    document.body.classList.toggle("dark");
-    localStorage.setItem("theme",
-        document.body.classList.contains("dark") ? "dark" : "light"
-    );
-}
-
-function loadTheme(){
-    if(localStorage.getItem("theme") === "dark"){
-        document.body.classList.add("dark");
-    }
-}
-loadTheme();
-
 </script>
 
 </body>
