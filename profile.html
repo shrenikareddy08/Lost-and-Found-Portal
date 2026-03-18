@@ -256,7 +256,7 @@ body {
 // LOGIN CHECK
 const studentData = JSON.parse(localStorage.getItem('studentData'));
 if(!studentData){
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 // FORMAT
@@ -280,7 +280,7 @@ if(studentData.department){
 // LOGOUT
 function logout(){
     localStorage.removeItem('studentData');
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 // THEME
